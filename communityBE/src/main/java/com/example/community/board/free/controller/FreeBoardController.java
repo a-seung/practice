@@ -6,6 +6,10 @@ import com.example.community.board.free.model.FreeBoard;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +24,19 @@ public class FreeBoardController {
 
     private final FreeBoardService freeBoardService;
 
-    // 모든 게시글 조회
+    // 모든 게시글 조회 (페이징 및 정렬)
     @GetMapping
-    public List<FreeBoard> getAllFreeArticles() {
-        List<FreeBoard> articles = freeBoardService.getAllArticles();
-        log.info("==============> 게시글 조회 성공 : {}", articles);
+    public Page<FreeBoard> getAllFreeArticles(
+            @RequestParam(defaultValue = "0") int page,       // 기본 페이지는 0
+            @RequestParam(defaultValue = "10") int size,      // 기본 페이지 크기는 10
+            @RequestParam(defaultValue = "id") String sortBy, // 정렬 기준은 id
+            @RequestParam(defaultValue = "desc") String order  // 기본 정렬 방식은 내림차순
+    ) {
+        Sort.Direction direction = order.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<FreeBoard> articles = freeBoardService.getAllArticles(pageable);
+        log.info("==============> 게시글 조회 성공 : 페이지 = {}, 크기 = {}, 정렬 = {} {}", page, size, sortBy, order);
         return articles;
     }
 

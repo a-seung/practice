@@ -3,6 +3,8 @@ package com.example.community.board.free.service;
 import com.example.community.board.free.model.FreeBoard;
 import com.example.community.board.free.repository.FreeBoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,8 +19,8 @@ public class FreeBoardService {
 
 
     // 모든 게시글 조회
-    public List<FreeBoard> getAllArticles() {
-        return freeBoardRepository.findAll();
+    public Page<FreeBoard> getAllArticles(Pageable pageable) {
+        return freeBoardRepository.findAll(pageable);
     }
 
 
