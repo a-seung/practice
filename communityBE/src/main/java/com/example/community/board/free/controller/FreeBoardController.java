@@ -6,15 +6,22 @@ import com.example.community.board.free.model.FreeBoard;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -23,6 +30,10 @@ import java.util.Optional;
 public class FreeBoardController {
 
     private final FreeBoardService freeBoardService;
+
+    // 파일 저장 경로를 properties에서 읽어오기
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     // 모든 게시글 조회 (페이징 및 정렬)
     @GetMapping
@@ -60,16 +71,47 @@ public class FreeBoardController {
         }
     }
 
-    // 게시글 작성 (DTO 활용 및 입력값 검증)
+    // 게시글 작성 및 파일 업로드 (DTO 활용 및 파일 처리)
     @PostMapping
-    public ResponseEntity<FreeBoard> createFreeArticle(@Valid @RequestBody FreeBoardRequestDTO articleDTO) {
+    public ResponseEntity<FreeBoard> createFreeArticleWithFile(
+            @Valid @RequestPart("article") FreeBoardRequestDTO articleDTO,
+            @RequestPart("file") MultipartFile file
+    ) {
+        // 파일 처리
+        if (!file.isEmpty()) {
+            try {
+                // 고유한 파일명 생성 (UUID + 파일 확장자)
+                String originalFileName = file.getOriginalFilename();
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
+
+                // 파일 저장 경로 설정
+                Path path = Paths.get(uploadDir + uniqueFileName);
+
+                // 디렉토리가 존재하지 않으면 생성
+                if (!Files.exists(path.getParent())) {
+                    Files.createDirectories(path.getParent());
+                }
+
+                // 파일을 경로에 저장
+                Files.write(path, file.getBytes());
+
+                log.info("업로드된 파일 경로: {}", path.toString());
+
+            } catch (IOException e) {
+                log.error("파일 업로드 실패", e);
+                return ResponseEntity.status(500).body(null);
+            }
+        }
+
+        // 게시글 정보 처리
         FreeBoard article = new FreeBoard();
         article.setTitle(articleDTO.getTitle());
         article.setContent(articleDTO.getContent());
         article.setWriterId(articleDTO.getWriterId());
 
         FreeBoard createdArticle = freeBoardService.createArticle(article);
-        log.info("==============> 게시글 생성 성공 : {}", createdArticle);
+        log.info("==============> 게시글 및 파일 생성 성공 : {}", createdArticle);
 
         return ResponseEntity.ok(createdArticle);
     }
@@ -96,4 +138,6 @@ public class FreeBoardController {
         log.info("=============> 게시글 삭제 성공: ID = {}", id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

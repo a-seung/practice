@@ -27,6 +27,8 @@ public class FreeBoard {  // 공통된 이름으로 Article 사용
 
     private Long writerId;  // 작성자의 ID
 
+    private String filePath;  // 파일 경로 필드 추가
+
     private LocalDateTime createdAt = LocalDateTime.now();  // 작성 시간
 
     private LocalDateTime updatedAt = LocalDateTime.now();  // 수정 시간
