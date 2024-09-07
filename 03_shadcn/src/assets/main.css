@@ -287,7 +287,7 @@ body.user-page #app {
 
 .input-bg {
   /*  */
-  @apply mb-2;
+  @apply mb-4;
 }
 
 .terms-checkbox {

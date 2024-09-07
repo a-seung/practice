@@ -43,7 +43,7 @@
 
         <!-- 닉네임 -->
         <div class="input-bg">
-          <label class="label" for="nickname">닉네임</label>
+          <Label class="label" for="nickname">닉네임</Label>
           <Input class="input" id="nickname" type="text" v-model="User.nickname" placeholder="닉네임을 입력해주세요" @input="nicknameDupCheckAPI" required />
           <p class="notification-text" v-if="nicknameDupCheckResult && User.nickname">이미 사용 중인 닉네임입니다.</p>
           <p class="notification-text" v-if="nicknameDupCheckOk && User.nickname" style="color: blue">사용 가능한 닉네임입니다.</p>
@@ -51,7 +51,7 @@
         
         <!-- 이메일 -->
         <div class="input-bg">
-          <label class="label" for="email">이메일</label>
+          <Label class="label" for="email">이메일</Label>
           <Input class="input" id="email" type="text" v-model="User.email" placeholder="이메일을 입력해주세요" @input="validateEmail" @change="emailDupCheckAPI" required />
           <p class="notification-text" v-if="emailError && User.email">이메일 형식에 맞게 입력해주세요.</p>
           <p class="notification-text" v-else-if="emailDupCheckResult && !emailError">이미 사용 중인 이메일입니다.</p>
@@ -60,23 +60,23 @@
 
         <!-- 성별 -->
         <div class="input-bg">
-          <label class="label" for="gender">성별</label>
-          <div class="flex items-center px-3 py-2 mb-3">
-            <label class="flex items-center space-x-2">
-              <input class="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out" type="radio" v-model="User.gender" :value="false" />
-              <span>남성</span>
-            </label>
+          <Label class="label" for="gender">성별</Label>
+          <RadioGroup v-model="User.gender" class="flex">
+            <div class="flex space-x-2">
+              <RadioGroupItem class="h-4 w-4" value="true" id="male" />
+              <Label for="male">남성</Label>
+            </div>
 
-            <label class="flex items-center space-x-2 ml-3">
-              <input class="form-radio h-4 w-4 text-pink-600 transition duration-150 ease-in-out" type="radio" v-model="User.gender" :value="true" />
-              <span>여성</span>
-            </label>
-          </div>
+            <div class="flex space-x-2 ml-3">
+              <RadioGroupItem class="h-4 w-4" value="false" id="female" />
+              <Label for="female">여성</Label>
+            </div>
+          </RadioGroup>
         </div>
 
         <!-- 생년월일 -->
         <div class="input-bg">
-          <label class="label" for="birth">생년월일</label>
+          <Label class="label" for="birth">생년월일</Label>
           <input class="input" v-model="User.birth" type="text" id="birth" placeholder="YYYY-MM-DD" @input="validateBirthInput" required />
           <p class="notification-text" v-if="birthError && User.birth">올바른 형식(YYYY-MM-DD)으로 입력해주세요.</p>
         </div>
@@ -99,6 +99,7 @@ import TermsModal from './TermsModal.vue';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 
 const router = useRouter();
