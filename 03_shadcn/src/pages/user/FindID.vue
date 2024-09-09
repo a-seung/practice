@@ -27,7 +27,7 @@
             <p class="notification-text" v-if="emailError && email">이메일 형식이 올바르지 않습니다.</p>
           </div>
 
-          <Button class="button !mt-6" type="submit">아이디 찾기</Button>
+          <Button class="!mt-6" type="submit">아이디 찾기</Button>
         </form>
 
         <!-- 결과 표시 -->

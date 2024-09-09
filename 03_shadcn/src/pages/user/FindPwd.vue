@@ -17,22 +17,22 @@
         <form @submit.prevent="findPassword" class=" py-10">
           <!-- 이름 -->
           <div class="input_name">
-            <label class="label" for="name">이름</label>
-            <input class="input" v-model="name" type="text" id="name" autocomplete="name" required />
+            <Label for="name">이름</Label>
+            <Input class="input" v-model="name" type="text" id="name" autocomplete="name" required />
           </div>
           <!-- 아이디 -->
           <div class="input_id">
-            <label class="label" for="userLoginId">아이디</label>
-            <input class="input" v-model="userLoginId" type="text" id="userLoginId" autocomplete="username" required />
+            <Label for="userLoginId">아이디</Label>
+            <Input class="input" v-model="userLoginId" type="text" id="userLoginId" autocomplete="username" required />
           </div>
           <!-- 이메일 -->
           <div class="input_email">
-            <label class="label" for="email">이메일</label>
-            <input class="input" v-model="email" type="email" id="email" autocomplete="email" @input="validateEmail" required />
+            <Label for="email">이메일</Label>
+            <Input class="input" v-model="email" type="email" id="email" autocomplete="email" @input="validateEmail" required />
             <p class="notification-text" v-if="emailError && email">이메일 형식이 올바르지 않습니다.</p>
           </div>
 
-          <button class="button !mt-6" type="submit">비밀번호 찾기</button>
+          <Button class="!mt-6" type="submit">비밀번호 찾기</Button>
         </form>
 
         <!-- 결과 표시 -->
@@ -54,6 +54,9 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import UserApi from '@/api/UserApi'; // 실제 API 모듈 경로 확인
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 const router = useRouter();
 
