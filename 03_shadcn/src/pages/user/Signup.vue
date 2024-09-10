@@ -16,12 +16,12 @@
       <form @submit.prevent class="max-w-lg w-full px-6 mt-6">
         <!-- 이름 -->
         <div class="input-bg">
-          <Label class="label" for="name">이름</Label>
+          <Label for="name">이름</Label>
           <Input id="name" type="text" v-model="User.name" placeholder="이름을 입력하세요" required />
         </div>
         <!-- 아이디 -->
         <div class="input-bg">
-          <Label class="label" for="id">아이디</Label>
+          <Label for="id">아이디</Label>
           <Input id="id" type="text" v-model="User.userLoginId" placeholder="ID를 입력하세요" @input="idDupCheckAPI" required />
           <p class="notification-text" v-if="idDupCheckResult && User.userLoginId">이미 사용 중인 아이디입니다.</p>
           <p class="notification-text" v-if="idDupCheckOk && User.userLoginId" style="color: blue">사용 가능한 아이디입니다.</p>
@@ -29,21 +29,21 @@
 
         <!-- 비밀번호 -->
         <div class="input-bg">
-          <Label class="label" for="password">비밀번호</Label>
+          <Label for="password">비밀번호</Label>
           <Input class="input" id="password" type="password" v-model="User.password" placeholder="비밀번호를 입력하세요" required />
           <p class="notification-text" v-if="passwordError && User.password">비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상이어야 합니다.</p>
         </div>
 
         <!-- 비밀번호 확인 -->
         <div class="input-bg">
-          <Label class="label" for="password_check">비밀번호 확인</Label>
+          <Label for="password_check">비밀번호 확인</Label>
           <Input id="password_check" class="input" type="password" v-model="checkPassword" placeholder="비밀번호를 다시 한번 입력하세요" required />
           <p class="notification-text" v-if="pwdChecking && checkPassword">비밀번호가 일치하지 않습니다.</p>
         </div>
 
         <!-- 닉네임 -->
         <div class="input-bg">
-          <Label class="label" for="nickname">닉네임</Label>
+          <Label for="nickname">닉네임</Label>
           <Input class="input" id="nickname" type="text" v-model="User.nickname" placeholder="닉네임을 입력해주세요" @input="nicknameDupCheckAPI" required />
           <p class="notification-text" v-if="nicknameDupCheckResult && User.nickname">이미 사용 중인 닉네임입니다.</p>
           <p class="notification-text" v-if="nicknameDupCheckOk && User.nickname" style="color: blue">사용 가능한 닉네임입니다.</p>
@@ -51,7 +51,7 @@
         
         <!-- 이메일 -->
         <div class="input-bg">
-          <Label class="label" for="email">이메일</Label>
+          <Label for="email">이메일</Label>
           <Input class="input" id="email" type="text" v-model="User.email" placeholder="이메일을 입력해주세요" @input="validateEmail" @change="emailDupCheckAPI" required />
           <p class="notification-text" v-if="emailError && User.email">이메일 형식에 맞게 입력해주세요.</p>
           <p class="notification-text" v-else-if="emailDupCheckResult && !emailError">이미 사용 중인 이메일입니다.</p>
@@ -60,8 +60,8 @@
 
         <!-- 성별 -->
         <div class="input-bg">
-          <Label class="label" for="gender">성별</Label>
-          <RadioGroup v-model="User.gender" class="flex">
+          <Label>성별</Label>
+          <RadioGroup v-model="User.gender" class="flex mt-2">
             <div class="flex space-x-2">
               <RadioGroupItem class="h-4 w-4" value="true" id="male" />
               <Label for="male">남성</Label>
@@ -76,8 +76,8 @@
 
         <!-- 생년월일 -->
         <div class="input-bg">
-          <Label class="label" for="birth">생년월일</Label>
-          <input class="input" v-model="User.birth" type="text" id="birth" placeholder="YYYY-MM-DD" @input="validateBirthInput" required />
+          <Label for="birth">생년월일</Label>
+          <Input class="input" v-model="User.birth" type="text" id="birth" placeholder="YYYY-MM-DD" @input="validateBirthInput" required />
           <p class="notification-text" v-if="birthError && User.birth">올바른 형식(YYYY-MM-DD)으로 입력해주세요.</p>
         </div>
 

@@ -16,49 +16,49 @@
       <form @submit.prevent class="max-w-lg w-full px-6 mt-6">
         <!-- 이름 -->
         <div class="input-bg">
-          <label class="label" for="name">이름</label>
-          <input class="disabled-input" v-model="formData.name" type="text" id="name" disabled />
+          <Label for="name">이름</Label>
+          <Input class="disabled-input" v-model="formData.name" type="text" id="name" disabled />
         </div>
 
         <!-- 이메일 -->
         <div class="input-bg">
-          <label class="label" for="email">이메일</label>
-          <input class="disabled-input" v-model="formData.email" type="email" id="email" disabled />
+          <Label for="email">이메일</Label>
+          <Input class="disabled-input" v-model="formData.email" type="email" id="email" disabled />
         </div>
 
         <!-- 생년월일 -->
         <div class="input-bg">
-          <label class="label" for="birth">생년월일</label>
-          <input class="input" v-model="formData.birth" type="text" id="birth" placeholder="YYYY-MM-DD" @input="validateBirthInput" />
+          <Label for="birth">생년월일</Label>
+          <Input class="input" v-model="formData.birth" type="text" id="birth" placeholder="YYYY-MM-DD" @input="validateBirthInput" />
           <p class="notification-text" v-if="birthError && formData.birth">올바른 형식(YYYY-MM-DD)으로 입력해주세요.</p>
         </div>
 
         <!-- 성별 -->
         <div class="input-bg">
-          <label class="label" for="gender">성별</label>
-          <div class="flex items-centerpx-3 py-2 mb-3">
-            <label class="flex items-center space-x-2">
-              <input class="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out" type="radio" v-model="formData.gender" :value="false" />
-              <span>남성</span>
-            </label>
+          <Label>성별</Label>
+          <RadioGroup class="flex items-center px-3 pt-2">
+            <div class="flex space-x-2">
+              <RadioGroupItem class="h-4 w-4" value="true" id="male" />
+              <Label for="male">남성</Label>
+            </div>
 
-            <label class="flex items-center space-x-2  ml-3">
-              <input class="form-radio h-4 w-4 text-pink-600 transition duration-150 ease-in-out" type="radio" v-model="formData.gender" :value="true" />
-              <span>여성</span>
-            </label>
-          </div>
+            <div class="flex space-x-2 ml-3">
+              <RadioGroupItem class="h-4 w-4" value="false" id="female" />
+              <Label for="female">여성</Label>
+            </div>
+          </RadioGroup>
         </div>
 
         <!-- 닉네임 -->
         <div class="input-bg">
-          <label class="label" for="nickname">닉네임</label>
-          <input class="input" v-model="formData.nickname" type="text" id="nickname" placeholder="닉네임을 입력하세요" @input="nicknameDupCheckAPI" required />
+          <Label for="nickname">닉네임</Label>
+          <Input class="input" v-model="formData.nickname" type="text" id="nickname" placeholder="닉네임을 입력하세요" @input="nicknameDupCheckAPI" required />
           <p class="notification-text" v-if="nicknameDupCheckResult && formData.nickname">이미 사용 중인 닉네임입니다.</p>
           <p class="notification-text" v-if="nicknameDupCheckOk && formData.nickname" style="color: blue">사용가능한 닉네임입니다.</p>
         </div>
 
         <!-- 가입하기 버튼 -->
-          <button @click="openTermsModal" type="submit" class="button !mt-6" :disabled="!isFormValid">가입하기</button>
+          <Button @click="openTermsModal" type="submit" class="button !mt-6" :disabled="!isFormValid">가입하기</Button>
       </form>
 
       <!-- 약관 동의 모달 -->
@@ -72,6 +72,10 @@ import { ref, onMounted, computed } from 'vue';
 import UserApi from '@/api/UserApi';
 import { useRouter } from 'vue-router';
 import TermsModal from './TermsModal.vue';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 // 정규식을 이용한 생년월일 형식 검증
 const isValidDateFormat = (dateString) => {
